@@ -64,12 +64,13 @@ pipeline {
             }
         }
 
+//		Aggregate test results - JUnit
         stage('Unit tests') {
             steps{
                 echo "------------>Unit tests<------------"
                 sh 'gradle test'
-                junit '**/build/test-results/test/*.xml' //aggregate test results - JUnit
-                jacoco classPattern: '**/build/classes/java', execPattern: '**/build/jacoco/test.exec', sourcePattern: '**/src/main/java'
+                junit '**/jacoco/test-results/*.xml'
+                jacoco classPattern: '**/build/classes/java', execPattern: '**/jacoco/jacocoTest.exec', sourcePattern: '**/src/main/java'
             }
         }
 
@@ -139,32 +140,6 @@ pipeline {
     post {
         always {
            echo "------------>Reporting<------------"
-          publishHTML target: [
-            allowMissing: true,
-            alwaysLinkToLastBuild: false,
-            keepAll: false,
-            reportDir: 'buildSrc/build/reports/tests/test',
-            reportFiles: 'index.html',
-            reportName: 'Tests Report - buildSrc'
-          ]
-
-        publishHTML target: [
-            allowMissing: true,
-            alwaysLinkToLastBuild: false,
-            keepAll: false,
-            reportDir: 'services/webservice/build/reports/tests/test',
-            reportFiles: 'index.html',
-            reportName: 'Tests Report - services/webservice'
-          ]
-          
-        publishHTML target: [
-            allowMissing: true,
-            alwaysLinkToLastBuild: false,
-            keepAll: false,
-            reportDir: 'shared/build/reports/tests/test',
-            reportFiles: 'index.html',
-            reportName: 'Tests Report - shared'
-          ]
         }
         success {
           echo 'Reporting successful'
