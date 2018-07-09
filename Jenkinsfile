@@ -3,13 +3,6 @@ pipeline {
     agent {
         label 'Slave_Induccion'
     }
-    //agent none
-    //agent any
-    /*agent {
-        node {
-          label 'labelName'
-        }
-      }*/
 
     //Using environment variables
     environment {
@@ -89,52 +82,6 @@ pipeline {
                 sh 'gradle --b ./build.gradle build -x test'
             }
         }
-
-        /*  
-    	stage('Parallel Stage') {
-    	    parallel {
-    	        stage('Branch A') {
-    	            steps {
-    	                echo "------------>On Branch A<------------"
-    	                sh 'echo "Este Nodo es: Centos =)"'
-    	            }
-    	       }
-    	       stage('Branch B') {
-    	           steps {
-    	               echo "------------>On Branch Be<------------"
-    	           }
-    	       }
-    	   }
-    	}
-
-        
-        stage('Publish') {
-            steps{
-                echo '------------>Publish [Artifactory]<------------'
-                script{ //takes a block of Scripted Pipeline and executes that in the Declarative Pipeline
-                    def server = Artifactory.server 'ar7if4c70ry@c318a'
-                    def uploadSpec = '''
-                        {"files": [{
-                        "pattern": "**-/build/libs/*.jar",
-                        "target": "libs-release-local/$JOB_NAME/build/"
-                        }]}'''
-
-                    def buildInfo = server.upload(uploadSpec)
-                    server.publishBuildInfo(buildInfo)
-                }
-            }
-        }
-        */
-
-        /*
-        stage('Deploy') {
-            steps {
-                //Asking for human input to proceed
-                //input "Deploy?"
-                echo "------------>Deploying<------------"
-            }
-        }
-        */ 
 	}
 
     post {
@@ -143,7 +90,6 @@ pipeline {
         }
         success {
           echo 'Reporting successful'
-
         }
 
         failure {
