@@ -147,6 +147,7 @@ pipeline {
             reportFiles: 'index.html',
             reportName: 'Tests Report - buildSrc'
           ]
+
         publishHTML target: [
             allowMissing: true,
             alwaysLinkToLastBuild: false,
@@ -155,6 +156,7 @@ pipeline {
             reportFiles: 'index.html',
             reportName: 'Tests Report - services/webservice'
           ]
+          
         publishHTML target: [
             allowMissing: true,
             alwaysLinkToLastBuild: false,
@@ -168,9 +170,10 @@ pipeline {
           echo 'Reporting successful'
 
         }
+
         failure {
           echo 'Reporting failed'
-          //send notifications about a Pipeline to an email
+//      Send notifications about a Pipeline to an email
           mail (to: 'jonathan.valencia@ceiba.com.co',
                subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
                body: "Something is wrong with ${env.BUILD_URL}")
@@ -179,9 +182,10 @@ pipeline {
           echo 'The pipeline run was marked as unstable'
         }
         changed {
-          echo 'This will run only if the state of the Pipeline has changed'
-          echo 'For example, if the Pipeline was previously failing but is now successful'
-          //send notifications about a Pipeline to an email
+
+//      This will run only if the state of the Pipeline has changed
+//      For example, if the Pipeline was previously failing but is now successful'
+//      Send notifications about a Pipeline to an email
           mail (to: 'jonathan.valencia@ceiba.com.co',
                subject: "Changed State Pipeline: ${currentBuild.fullDisplayName}",
                body: "The state of the Pipeline has changed. See ${env.BUILD_URL}")

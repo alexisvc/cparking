@@ -33,8 +33,10 @@ dependencies {
 }
 
 test {
- jacoco {
-	append = false
-	destinationFile = file("build/jacoco/jacocoTest.exec")	
-	}
+	jacoco {
+		append = false
+		destinationFile = file("jacoco/jacocoTest.exec")
+		}
+	reports.junitXml.destination = file ("jacoco/test-results")
 }
+jacocoTestReport.dependsOn(test)
