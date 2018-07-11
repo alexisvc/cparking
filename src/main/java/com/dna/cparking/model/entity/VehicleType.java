@@ -22,9 +22,17 @@ public class VehicleType implements Serializable {
 	
 	@Column (name = "DESCRIPTION", nullable = false)
 	private String description;
-
+	
 	public VehicleType(String description) {
 		super();
 		this.description = description;
+	}
+	
+	public VehicleType() {
+		super();
+	}	
+	
+	public String getDescription() {
+		return description;
 	}
 }

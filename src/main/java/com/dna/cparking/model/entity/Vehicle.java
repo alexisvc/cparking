@@ -29,7 +29,7 @@ public class Vehicle implements Serializable {
 	private int displacement;
 	
 	@ManyToOne
-	@JoinColumn (name = "ID_VEHICLE_TYPE" )
+	@JoinColumn (name = "ID_VEHICLE_TYPE", nullable = false)
 	private VehicleType vehicleType;
 
 	public Vehicle(String plate, int displacement, VehicleType vehicleType) {

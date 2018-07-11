@@ -31,13 +31,13 @@ public class Parking implements Serializable {
 	
 	@Column (name = "STATUS", nullable = false)
 	private boolean status;
-	
+
 	@ManyToOne
-	@JoinColumn (name = "ID_VEHICLE" )
+	@JoinColumn (name = "ID_VEHICLE", nullable = false)
 	private Vehicle vehicle;
 	
 	@ManyToOne
-	@JoinColumn (name = "ID_RATE" )
+	@JoinColumn (name = "ID_RATE", nullable = false)
 	private Rate rate;
 
 	public Parking(Date inDate, Date outDate, boolean status, Vehicle vehicle, Rate rate) {
