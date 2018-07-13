@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -28,14 +26,41 @@ public class Vehicle implements Serializable {
 	@Column (name = "DISPLACEMENT", nullable = false)
 	private int displacement;
 	
-	@ManyToOne
-	@JoinColumn (name = "ID_VEHICLE_TYPE", nullable = false)
-	private VehicleType vehicleType;
+	@Column (name = "VEHICLE_TYPE", nullable = false)
+	private String vehicleType;
+	
+	public Vehicle() {
+		super();
+	}
 
-	public Vehicle(String plate, int displacement, VehicleType vehicleType) {
+	public Vehicle(String plate, int displacement, String vehicleType) {
 		super();
 		this.plate = plate;
 		this.displacement = displacement;
+		this.vehicleType = vehicleType;
+	}
+
+	public String getPlate() {
+		return plate;
+	}
+
+	public void setPlate(String plate) {
+		this.plate = plate;
+	}
+
+	public int getDisplacement() {
+		return displacement;
+	}
+
+	public void setDisplacement(int displacement) {
+		this.displacement = displacement;
+	}
+
+	public String getVehicleType() {
+		return vehicleType;
+	}
+
+	public void setVehicleType(String vehicleType) {
 		this.vehicleType = vehicleType;
 	}
 }

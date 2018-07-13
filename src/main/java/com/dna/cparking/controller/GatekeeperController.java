@@ -7,20 +7,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dna.cparking.model.entity.VehicleType;
-import com.dna.cparking.service.VehicleTypeService;
+import com.dna.cparking.model.entity.Vehicle;
+import com.dna.cparking.service.GatekeeperService;
+
 
 @CrossOrigin(origins = { "*" })
 @RestController
 @RequestMapping("/cparking")
-public class VehicleTypeController {
+public class GatekeeperController {
+	/*
+	@Autowired	private GatekeeperService gatekeeperService;
 	
-	@Autowired
-	private VehicleTypeService vehicleTypeService;
-	
-	@RequestMapping(value = "/vehicleType", method = RequestMethod.POST)	
-	public VehicleType create(@RequestBody VehicleType vehicleType) {
-		return vehicleTypeService.saveVehicleType(vehicleType);
+	@RequestMapping(value = "/gatekeeper", method = RequestMethod.POST)	
+	public void createParking(@RequestBody Vehicle vehicle) {
+		gatekeeperService.enterVehicle(vehicle);
 	}
-
+*/
 }

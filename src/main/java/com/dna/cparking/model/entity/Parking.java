@@ -36,18 +36,20 @@ public class Parking implements Serializable {
 	@JoinColumn (name = "ID_VEHICLE", nullable = false)
 	private Vehicle vehicle;
 	
+	@Column (name = "PAYMENT", nullable = false)
+	private int payment;
+	
 	@ManyToOne
 	@JoinColumn (name = "ID_RATE", nullable = false)
 	private Rate rate;
 
-	public Parking(Date inDate, Date outDate, boolean status, Vehicle vehicle, Rate rate) {
+	public Parking(Date inDate, Date outDate, boolean status, Vehicle vehicle, Rate rate, int payment) {
 		super();
 		this.inDate = inDate;
 		this.outDate = outDate;
 		this.status = status;
 		this.vehicle = vehicle;
 		this.rate = rate;
-	}
-	
-	
+		this.payment = payment;
+	}	
 }
