@@ -15,12 +15,12 @@ import com.dna.cparking.service.GatekeeperService;
 @RestController
 @RequestMapping("/cparking")
 public class GatekeeperController {
-	/*
-	@Autowired	private GatekeeperService gatekeeperService;
+	
+	@Autowired
+	private GatekeeperService gatekeeperService;
 	
 	@RequestMapping(value = "/gatekeeper", method = RequestMethod.POST)	
-	public void createParking(@RequestBody Vehicle vehicle) {
+	public void createParking(@RequestBody Vehicle vehicle) {		
 		gatekeeperService.enterVehicle(vehicle);
-	}
-*/
+	}	
 }

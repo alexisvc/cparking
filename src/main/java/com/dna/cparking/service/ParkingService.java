@@ -5,6 +5,7 @@ import java.util.List;
 import com.dna.cparking.model.entity.Parking;
 
 public interface ParkingService {
-	public Parking saveParking(Parking parking);
-	public List<Parking> findAllVehiclesParking();
+	
+	public void saveParking(Parking parking);
+	public List<Parking> findAllParking();
 }

@@ -16,13 +16,14 @@ public class ParkingServiceImp implements ParkingService {
 	private ParkingDao parkingDao;
 	
 	@Override
-	public Parking saveParking(Parking parking) {
-		return parkingDao.save(parking);
+//	Save a parking data on database.
+	public void saveParking(Parking parking) {
+		parkingDao.save(parking);
 	}
-
-	@Override   //This is not the rule, just is a test. I need a Query
-	//I need check status
-	public List<Parking> findAllVehiclesParking(){
-		return (List<Parking>)parkingDao.findAll();
+	
+//	Return integer with the number of vehicles in parking.
+	@Override
+	public List<Parking> findAllParking(){
+		return parkingDao.findAllVehicleInParking();
 	}
 }
