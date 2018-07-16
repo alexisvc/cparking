@@ -39,6 +39,19 @@ public class Parking implements Serializable {
 	@Column (name = "PAYMENT", nullable = false)
 	private int payment;
 	
+	public Parking() {
+		super();
+	}	
+	
+	public Parking(Date inDate, Date outDate, boolean status, Vehicle vehicle, int payment) {
+		super();
+		this.inDate = inDate;
+		this.outDate = outDate;
+		this.status = status;
+		this.vehicle = vehicle;
+		this.payment = payment;
+	}
+	
 	public Date getInDate() {
 		return inDate;
 	}
@@ -78,15 +91,4 @@ public class Parking implements Serializable {
 	public void setPayment(int payment) {
 		this.payment = payment;
 	}
-
-	public Parking(Date inDate, Date outDate, boolean status, Vehicle vehicle, int payment) {
-		super();
-		this.inDate = inDate;
-		this.outDate = outDate;
-		this.status = status;
-		this.vehicle = vehicle;
-		this.payment = payment;
-	}
-
-	public Parking() {}	
 }

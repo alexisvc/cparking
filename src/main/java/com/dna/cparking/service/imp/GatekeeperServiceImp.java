@@ -1,7 +1,5 @@
 package com.dna.cparking.service.imp;
 
-import java.util.Calendar;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +28,6 @@ public class GatekeeperServiceImp implements GatekeeperService {
 	@Autowired
 	private VehicleService vehicleService;
 	
-	@Override
 	public void registerVehicleEntry(Vehicle vehicle){
 		try {
 			if (calendarParking.isMondayOrSunday() && gatekeeper.checkPlateStartWithA(vehicle.getPlate())) {
@@ -45,14 +42,10 @@ public class GatekeeperServiceImp implements GatekeeperService {
 				throw new ExceptionParking(CatalogMessages.VEHICLE_ALREADY_IS_PARKED);
 			}
 			
-			Parking parking = new Parking();				
+			Parking parking = new Parking();			
+			
 			vehicle = vehicleService.getVehicleToParking(vehicle);				
-
-			parking.setVehicle(vehicle);
-			parking.setInDate(Calendar.getInstance().getTime());
-			parking.setOutDate(null);
-			parking.setPayment(0);
-			parking.setStatus(true);
+			parking = parkingService.settingParking(parking, vehicle);
 			
 			parkingService.saveParking(parking);
 			
