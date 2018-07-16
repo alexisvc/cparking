@@ -2,12 +2,14 @@ package com.dna.cparking.domain.imp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.dna.cparking.domain.Gatekeeper;
 import com.dna.cparking.model.dao.ParkingDao;
 import com.dna.cparking.util.EnumVehicleType;
 import com.dna.cparking.util.ParamsConfigParking;
 
+@Service
 @Component
 public class GatekeeperImp implements Gatekeeper {
 
@@ -20,15 +22,10 @@ public class GatekeeperImp implements Gatekeeper {
 
 	@Override
 	public boolean checkSpaceVehicleType(EnumVehicleType vehicleType) {
-		int numberVehicles = parkingDao.findAllVehicleInParkingByType(vehicleType).size();
-		boolean thereIsSpace = false;
+		int vehiclesInParking = parkingDao.findAllVehicleInParkingByType(vehicleType);
+		int maxVehicleAllowed = (vehicleType == EnumVehicleType.CAR ? ParamsConfigParking.MAX_CARS_ALLOWED : ParamsConfigParking.MAX_MOTORBIKES_ALLOWED);
 		
-		if ((vehicleType.equals(EnumVehicleType.CAR) && numberVehicles < ParamsConfigParking.MAX_CARS_ALLOWED) || 
-			(vehicleType.equals(EnumVehicleType.MOTORBIKE) && numberVehicles < ParamsConfigParking.MAX_MOTORBIKES_ALLOWED)) { 
-			thereIsSpace = true; 
-		}
-		
-		return thereIsSpace;		
+		return vehiclesInParking < maxVehicleAllowed;
 	}
 	
 	@Override

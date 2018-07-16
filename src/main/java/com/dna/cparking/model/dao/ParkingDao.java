@@ -16,8 +16,8 @@ public interface ParkingDao extends CrudRepository<Parking, Long>{
 	List<Parking> findAllVehicleInParking();
 
 //	Find all vehicles in parking by type
-	@Query("FROM Parking p JOIN p.vehicle v WHERE v.vehicleType = :vehicleType AND p.status = true")
-	List<Parking> findAllVehicleInParkingByType(@Param("vehicleType") EnumVehicleType vehicleType);
+	@Query("SELECT COUNT(*) FROM Parking p JOIN p.vehicle v WHERE v.vehicleType = :vehicleType AND p.status = true")
+	int findAllVehicleInParkingByType(@Param("vehicleType") EnumVehicleType vehicleType);
 	
 //	This vehicle is already parked ?
 	@Query("SELECT CASE WHEN COUNT(p) > 0 THEN true ELSE false END FROM Parking p JOIN p.vehicle v WHERE v.plate = :plate AND p.status = true")
