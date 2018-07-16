@@ -2,6 +2,7 @@ package com.dna.cparking.service.imp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dna.cparking.model.dao.VehicleDao;
 import com.dna.cparking.model.entity.Vehicle;
@@ -15,7 +16,9 @@ public class VehicleServiceImp implements VehicleService{
 
 //	If the vehicle is new, create it.
 //	If the vehicle was in parking, get it.
-	public Vehicle getVehicleToParking(Vehicle vehicle) {	
+	@Override
+	@Transactional
+	public Vehicle getVehicleToParking(Vehicle vehicle) {
 		
 		if (!vehicleDao.existsByPlate(vehicle.getPlate())){
 			vehicle = vehicleDao.save(vehicle);

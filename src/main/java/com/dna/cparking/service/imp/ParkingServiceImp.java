@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dna.cparking.model.dao.ParkingDao;
 import com.dna.cparking.model.entity.Parking;
@@ -15,8 +16,9 @@ public class ParkingServiceImp implements ParkingService {
 	@Autowired
 	private ParkingDao parkingDao;
 	
-	@Override
 //	Save a parking data on database.
+	@Override
+	@Transactional
 	public void saveParking(Parking parking) {
 		parkingDao.save(parking);
 	}
