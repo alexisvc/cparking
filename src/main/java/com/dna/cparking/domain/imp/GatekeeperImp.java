@@ -25,7 +25,7 @@ public class GatekeeperImp implements Gatekeeper {
 		int vehiclesInParking = parkingDao.findAllVehicleInParkingByType(vehicleType);
 		int maxVehicleAllowed = (vehicleType == EnumVehicleType.CAR ? ParamsConfigParking.MAX_CARS_ALLOWED : ParamsConfigParking.MAX_MOTORBIKES_ALLOWED);
 		
-		return vehiclesInParking < maxVehicleAllowed;
+		return (vehiclesInParking < maxVehicleAllowed);
 	}
 	
 	@Override
