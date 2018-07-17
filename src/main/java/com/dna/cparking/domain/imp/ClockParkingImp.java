@@ -5,7 +5,6 @@ import java.util.Date;
 import org.springframework.stereotype.Component;
 
 import com.dna.cparking.domain.ClockParking;
-import com.dna.cparking.domain.TimerParking;
 import com.dna.cparking.util.ParamsConfigParking;
 
 @Component

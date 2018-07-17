@@ -2,6 +2,7 @@ package com.dna.cparking.service.imp;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,9 +79,12 @@ public class GatekeeperServiceImp implements GatekeeperService {
 			throw new ExceptionParking(e.getMessage());
 		}
 	}
-/*	
-	public List<Vehicle> findAllVehicle(){
-		// BusinessLogic
+
+	public List<Parking> findAllVehicles(){		
+		try {			
+			return parkingService.findAllParking();	
+		} catch (ExceptionParking e) {
+			throw new ExceptionParking(e.getMessage());
+		}		
 	}
-*/
 }

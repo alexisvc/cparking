@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import com.dna.cparking.domain.ClockParking;
 import com.dna.cparking.domain.Gatekeeper;
-import com.dna.cparking.domain.TimerParking;
 import com.dna.cparking.model.dao.ParkingDao;
 import com.dna.cparking.model.entity.Parking;
 import com.dna.cparking.util.EnumVehicleType;

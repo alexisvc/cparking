@@ -1,4 +1,4 @@
-package com.dna.cparking.domain;
+package com.dna.cparking.domain.imp;
 
 public class TimerParking {
 	private int days;
