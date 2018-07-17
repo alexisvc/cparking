@@ -1,5 +1,6 @@
 package com.dna.cparking.service.imp;
 
+import java.util.Date;
 import java.util.Calendar;
 import java.util.List;
 
@@ -18,14 +19,12 @@ public class ParkingServiceImp implements ParkingService {
 	@Autowired
 	private ParkingDao parkingDao;
 	
-//	Save a parking data on database.
 	@Override
 	@Transactional
 	public void saveParking(Parking parking) {
 		parkingDao.save(parking);
 	}
 	
-//	Set params to build a parking object to saved it in database
 	@Override
 	public Parking settingParking (Parking parking, Vehicle vehicle) {
 		parking.setVehicle(vehicle);
@@ -37,9 +36,24 @@ public class ParkingServiceImp implements ParkingService {
 		return parking;
 	}
 	
-//	Return integer with the number of vehicles in parking.
+	@Override
+	public Parking getParkingToGiveOut(String plate) {
+		return parkingDao.findVehicleInParkingByPlate(plate);
+	}
+	
+	@Override
+	@Transactional
+	public void parkingGiveOutById(Parking parking, Date outDate, int payment) {
+		
+		parking.setOutDate(outDate);
+		parking.setPayment(payment);
+		parking.setStatus(false);
+		
+		saveParking(parking);
+	}
+	
 	@Override
 	public List<Parking> findAllParking(){
-		return parkingDao.findAllVehicleInParking();
+		return parkingDao.findAllVehiclesInParking();
 	}
 }

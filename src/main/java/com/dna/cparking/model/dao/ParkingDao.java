@@ -11,15 +11,15 @@ import com.dna.cparking.util.EnumVehicleType;
 
 public interface ParkingDao extends CrudRepository<Parking, Long>{
 	
-//	Find all vehicles in parking.
 	@Query("FROM Parking P WHERE P.status = true")
-	List<Parking> findAllVehicleInParking();
+	List<Parking> findAllVehiclesInParking();
 
-//	Find all vehicles in parking by type
 	@Query("SELECT COUNT(*) FROM Parking p JOIN p.vehicle v WHERE v.vehicleType = :vehicleType AND p.status = true")
 	int findAllVehicleInParkingByType(@Param("vehicleType") EnumVehicleType vehicleType);
 	
-//	This vehicle is already parked ?
 	@Query("SELECT CASE WHEN COUNT(p) > 0 THEN true ELSE false END FROM Parking p JOIN p.vehicle v WHERE v.plate = :plate AND p.status = true")
 	boolean alreadyParked(@Param("plate") String plate);
-}
+
+	@Query("FROM Parking P JOIN P.vehicle V WHERE V.plate = :plate AND P.status = true")
+	Parking findVehicleInParkingByPlate(@Param("plate") String plate);
+} 

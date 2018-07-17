@@ -18,13 +18,12 @@ public class VehicleServiceImp implements VehicleService{
 //	If the vehicle was in parking, get it.
 	@Override
 	@Transactional
-	public Vehicle getVehicleToParking(Vehicle vehicle) {
-		
+	public Vehicle getVehicleToParking(Vehicle vehicle) {		
 		if (!vehicleDao.existsByPlate(vehicle.getPlate())){
 			vehicle = vehicleDao.save(vehicle);
 		} else {
 			vehicle = vehicleDao.getVehicleByPlate(vehicle.getPlate());
 		}
 		return vehicle;	
-	}	
+	}
 }

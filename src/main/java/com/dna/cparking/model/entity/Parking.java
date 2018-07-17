@@ -52,6 +52,10 @@ public class Parking implements Serializable {
 		this.payment = payment;
 	}
 	
+	public int getidParking() {
+		return idParking;
+	}
+	
 	public Date getInDate() {
 		return inDate;
 	}

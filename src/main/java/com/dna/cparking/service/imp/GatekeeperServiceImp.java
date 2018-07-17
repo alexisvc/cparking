@@ -1,5 +1,8 @@
 package com.dna.cparking.service.imp;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +45,7 @@ public class GatekeeperServiceImp implements GatekeeperService {
 				throw new ExceptionParking(CatalogMessages.VEHICLE_ALREADY_IS_PARKED);
 			}
 			
-			Parking parking = new Parking();			
+			Parking parking = new Parking();
 			
 			vehicle = vehicleService.getVehicleToParking(vehicle);				
 			parking = parkingService.settingParking(parking, vehicle);
@@ -53,11 +56,29 @@ public class GatekeeperServiceImp implements GatekeeperService {
 			throw new ExceptionParking(e.getMessage());
 		}
 	}
-/*
-	public void giveOutVehicle(Vehicle vehicle) {
-		// BusinessLogic
+
+	public void giveOutVehicle(String plate) {
+		try {
+			
+			if (!gatekeeper.checkVehicleIsParked(plate)){
+				throw new ExceptionParking(CatalogMessages.VEHICLE_IS_NOT_PARKED);
+			}
+			
+			Date outDate;
+			int payment;			
+			Parking parking;
+			
+			outDate = Calendar.getInstance().getTime();
+			parking = parkingService.getParkingToGiveOut(plate);
+			payment = gatekeeper.generatePayment(parking.getVehicle().getVehicleType(), parking.getInDate(), outDate, parking.getVehicle().getDisplacement());
+			
+			parkingService.parkingGiveOutById(parking,outDate, payment);
+			
+		} catch (ExceptionParking e) {
+			throw new ExceptionParking(e.getMessage());
+		}
 	}
-	
+/*	
 	public List<Vehicle> findAllVehicle(){
 		// BusinessLogic
 	}
