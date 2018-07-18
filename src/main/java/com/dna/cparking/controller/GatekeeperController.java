@@ -2,9 +2,12 @@ package com.dna.cparking.controller;
 
 import java.util.List;
 
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,6 +52,7 @@ public class GatekeeperController {
 		return new ResponseEntity<>(plate, HttpStatus.OK);
 	}
 	
+	@Produces(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/findAllParked", method = RequestMethod.GET )
 	public ResponseEntity<Object> findAllVehicleParked() {
 		List<Parking> parking;
@@ -56,8 +60,8 @@ public class GatekeeperController {
 			parking = gatekeeperService.findAllVehicles();
 		} catch (ExceptionParking e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		
 		}
 		return new ResponseEntity<>(parking, HttpStatus.OK);
 	}
-
 }

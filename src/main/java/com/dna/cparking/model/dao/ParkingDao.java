@@ -11,7 +11,7 @@ import com.dna.cparking.util.EnumVehicleType;
 
 public interface ParkingDao extends CrudRepository<Parking, Long>{
 	
-	@Query("SELECT v.plate, v.vehicleType, p.inDate FROM Parking p JOIN p.vehicle v WHERE p.status = true")
+	@Query("FROM Parking p JOIN p.vehicle v WHERE p.status = true")
 	List<Parking> findAllVehiclesInParking();
 
 	@Query("SELECT COUNT(*) FROM Parking p JOIN p.vehicle v WHERE v.vehicleType = :vehicleType AND p.status = true")

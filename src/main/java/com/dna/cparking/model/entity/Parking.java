@@ -32,12 +32,12 @@ public class Parking implements Serializable {
 	@Column (name = "STATUS", nullable = false)
 	private boolean status;
 
+	@Column (name = "PAYMENT", nullable = false)
+	private int payment;
+	
 	@ManyToOne
 	@JoinColumn (name = "ID_VEHICLE", nullable = false)
 	private Vehicle vehicle;
-	
-	@Column (name = "PAYMENT", nullable = false)
-	private int payment;
 	
 	public Parking() {
 		super();
