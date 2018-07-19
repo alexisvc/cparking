@@ -10,6 +10,7 @@ public interface Gatekeeper {
 	public boolean checkPlateStartWithA (String plate);	
 	public boolean checkSpaceVehicleType(EnumVehicleType vehicleType);
 	public boolean checkVehicleIsParked(String plate);
+	public boolean parkingIsEmpty();
 	
 	public Parking getParkingToGiveOutVehicle(String plate);
 	public int generatePayment(EnumVehicleType vehicleType, Date inDate, Date outDate, int displacement);

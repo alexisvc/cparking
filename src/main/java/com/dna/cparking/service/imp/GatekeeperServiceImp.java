@@ -81,7 +81,10 @@ public class GatekeeperServiceImp implements GatekeeperService {
 	}
 
 	public List<Parking> findAllVehicles(){		
-		try {			
+		try {
+			if (gatekeeper.parkingIsEmpty()) {
+				throw new ExceptionParking(CatalogMessages.VEHICLE_IS_NOT_PARKED);
+			}			
 			return parkingService.findAllParking();	
 		} catch (ExceptionParking e) {
 			throw new ExceptionParking(e.getMessage());

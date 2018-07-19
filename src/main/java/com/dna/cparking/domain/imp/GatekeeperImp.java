@@ -34,6 +34,11 @@ public class GatekeeperImp implements Gatekeeper {
 	}
 	
 	@Override
+	public boolean parkingIsEmpty() {
+		return ((parkingDao.findAllVehiclesInParking().isEmpty()) ? true : false);
+	}
+	
+	@Override
 	public boolean checkVehicleIsParked(String plate) {
 		return parkingDao.alreadyParked(plate);	
 	}
