@@ -47,8 +47,7 @@ public class GatekeeperController {
 			gatekeeperService.giveOutVehicle(plate);
 		} catch (ExceptionParking e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
-		}
-		
+		}		
 		return new ResponseEntity<>(plate, HttpStatus.OK);
 	}
 	

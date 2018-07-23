@@ -1,7 +1,12 @@
 package com.dna.cparking.domain;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +17,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.dna.cparking.domain.imp.TimerParking;
 import com.dna.cparking.model.dao.ParkingDao;
+import com.dna.cparking.model.entity.Vehicle;
 import com.dna.cparking.util.EnumVehicleType;
 import com.dna.cparking.util.ParamsConfigParking;
 
@@ -21,12 +28,16 @@ import com.dna.cparking.util.ParamsConfigParking;
 @SpringBootTest
 public class GatekeeperTest {
 	
+	private static final String PLATE_TO_TEST = "IUY343";
 	private static final String PLATE_WITH_A = "ABC34A";
 	private static final String PLATE_WITHOUT_A = "CBA34S";
 	private static final String PLATE_PARKED = "XTS55D";
 	private static final String PLATE_UNPARKED = "OIU33A";
 	
+	private Vehicle carToTest = new Vehicle(PLATE_TO_TEST, 1200, EnumVehicleType.CAR);
+	
 	private boolean response;
+	
 	
 	@Autowired
 	private Gatekeeper gatekeeper;
@@ -107,4 +118,47 @@ public class GatekeeperTest {
 		assertFalse(response);
 		
 	}
+	
+	@Test
+	public void parkingIsEmpty() {	
+		
+		Mockito.when(parkingDao.parkingIsEmpty()).thenReturn(true);		
+		response = gatekeeper.checkParkingIsEmpty();
+		
+		assertTrue(response);		
+	}
+	
+//	@Test
+//	public void getParkingToGiveOutVehicle() {
+//		Calendar calendar = Calendar.getInstance();
+//		Date date = calendar.getTime();		
+//		Parking expectedParking = new Parking(date, date, true, carToTest, 0);		
+//		Parking dummyParking = new Parking(date, date, true, carToTest, 0);
+//		
+//		Mockito.when(parkingDao.findVehicleInParkingByPlate(carToTest.getPlate())).thenReturn(dummyParking);
+//		dummyParking = gatekeeper.getParkingToGiveOutVehicle(carToTest.getPlate());
+//		
+//		assertEquals(expectedParking, dummyParking);
+//		
+//	}
+
+	@Test
+	public void calculatePayment() {
+		int expectedPayment = 8000;
+		int payment = 0;
+		ClockParking clock = mock(ClockParking.class);
+		TimerParking timerParking = new TimerParking(1, 0);
+		
+		Calendar calendar = Calendar.getInstance();
+		Date now = calendar.getTime();
+		calendar.add(Calendar.HOUR, 11);
+		Date later = calendar.getTime();
+			
+		Mockito.when(clock.settingTimerParking(540)).thenReturn(timerParking);
+		
+		payment = gatekeeper.calculatePayment(now, later, ParamsConfigParking.VALUE_DAY_CAR, ParamsConfigParking.VALUE_HOUR_CAR);
+		
+		assertEquals(expectedPayment, payment);
+	}
+	
 }

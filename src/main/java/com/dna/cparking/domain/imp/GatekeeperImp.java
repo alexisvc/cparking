@@ -34,8 +34,8 @@ public class GatekeeperImp implements Gatekeeper {
 	}
 	
 	@Override
-	public boolean parkingIsEmpty() {
-		return ((parkingDao.findAllVehiclesInParking().isEmpty()) ? true : false);
+	public boolean checkParkingIsEmpty(){
+		return parkingDao.parkingIsEmpty();
 	}
 	
 	@Override
@@ -54,8 +54,7 @@ public class GatekeeperImp implements Gatekeeper {
 		TimerParking timerParking = clock.settingTimerParking(clock.getMinutesInParking(inDate, outDate));		
 		payment = (timerParking.getDays() * dayValue) + (timerParking.getHours() * hourValue);
 		
-		return payment;
-		
+		return payment;		
 	}
 	
 	@Override

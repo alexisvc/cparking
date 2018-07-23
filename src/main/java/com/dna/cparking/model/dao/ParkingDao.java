@@ -20,6 +20,9 @@ public interface ParkingDao extends CrudRepository<Parking, Long>{
 	@Query("SELECT CASE WHEN COUNT(p) > 0 THEN true ELSE false END FROM Parking p JOIN p.vehicle v WHERE v.plate = :plate AND p.status = true")
 	boolean alreadyParked(@Param("plate") String plate);
 
+	@Query("SELECT CASE WHEN COUNT(p) <= 0 THEN true ELSE false END FROM Parking p JOIN p.vehicle v WHERE p.status = true")
+	boolean parkingIsEmpty();
+	
 	@Query("FROM Parking P JOIN P.vehicle V WHERE V.plate = :plate AND P.status = true")
 	Parking findVehicleInParkingByPlate(@Param("plate") String plate);
 } 

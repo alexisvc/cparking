@@ -33,61 +33,46 @@ public class GatekeeperServiceImp implements GatekeeperService {
 	private VehicleService vehicleService;
 	
 	public void registerVehicleEntry(Vehicle vehicle){
-		try {
-			if (calendarParking.isMondayOrSunday() && gatekeeper.checkPlateStartWithA(vehicle.getPlate())) {
-				throw new ExceptionParking(CatalogMessages.INVALID_PLATE_IN_DAY);
-			}
-			
-			if (!gatekeeper.checkSpaceVehicleType(vehicle.getVehicleType())) {
-				throw new ExceptionParking(CatalogMessages.THERE_IS_NOT_SPACE_FOR_VEHICLE_TYPE);
-			}
-			
-			if (gatekeeper.checkVehicleIsParked(vehicle.getPlate())){
-				throw new ExceptionParking(CatalogMessages.VEHICLE_ALREADY_IS_PARKED);
-			}
-			
-			Parking parking = new Parking();
-			
-			vehicle = vehicleService.getVehicleToParking(vehicle);				
-			parking = parkingService.settingParking(parking, vehicle);
-			
-			parkingService.saveParking(parking);
-			
-		} catch (ExceptionParking e) {
-			throw new ExceptionParking(e.getMessage());
+		if (calendarParking.isMondayOrSunday() && gatekeeper.checkPlateStartWithA(vehicle.getPlate())) {
+			throw new ExceptionParking(CatalogMessages.INVALID_PLATE_IN_DAY);
 		}
+		
+		if (!gatekeeper.checkSpaceVehicleType(vehicle.getVehicleType())) {
+			throw new ExceptionParking(CatalogMessages.THERE_IS_NOT_SPACE_FOR_VEHICLE_TYPE);
+		}
+		
+		if (gatekeeper.checkVehicleIsParked(vehicle.getPlate())){
+			throw new ExceptionParking(CatalogMessages.VEHICLE_ALREADY_IS_PARKED);
+		}
+		
+		Parking parking = new Parking();
+		
+		vehicle = vehicleService.getVehicleToParking(vehicle);				
+		parking = parkingService.settingParking(parking, vehicle);
+		
+		parkingService.saveParking(parking);
 	}
 
-	public void giveOutVehicle(String plate) {
-		try {
-			
-			if (!gatekeeper.checkVehicleIsParked(plate)){
-				throw new ExceptionParking(CatalogMessages.VEHICLE_IS_NOT_PARKED);
-			}
-			
-			Date outDate;
-			int payment;			
-			Parking parking;
-			
-			outDate = Calendar.getInstance().getTime();
-			parking = parkingService.getParkingToGiveOut(plate);
-			payment = gatekeeper.generatePayment(parking.getVehicle().getVehicleType(), parking.getInDate(), outDate, parking.getVehicle().getDisplacement());
-			
-			parkingService.parkingGiveOutById(parking,outDate, payment);
-			
-		} catch (ExceptionParking e) {
-			throw new ExceptionParking(e.getMessage());
+	public void giveOutVehicle(String plate) {			
+		if (!gatekeeper.checkVehicleIsParked(plate)){
+			throw new ExceptionParking(CatalogMessages.VEHICLE_IS_NOT_PARKED);
 		}
+		
+		Date outDate;
+		int payment;			
+		Parking parking;
+		
+		outDate = Calendar.getInstance().getTime();
+		parking = parkingService.getParkingToGiveOut(plate);
+		payment = gatekeeper.generatePayment(parking.getVehicle().getVehicleType(), parking.getInDate(), outDate, parking.getVehicle().getDisplacement());
+		
+		parkingService.parkingGiveOutById(parking,outDate, payment);
 	}
 
 	public List<Parking> findAllVehicles(){		
-		try {
-			if (gatekeeper.parkingIsEmpty()) {
-				throw new ExceptionParking(CatalogMessages.VEHICLE_IS_NOT_PARKED);
-			}			
-			return parkingService.findAllParking();	
-		} catch (ExceptionParking e) {
-			throw new ExceptionParking(e.getMessage());
-		}		
+		if (gatekeeper.checkParkingIsEmpty()) {
+			throw new ExceptionParking(CatalogMessages.PARKING_IS_EMPTY);
+		}
+		return parkingService.findAllParking();		
 	}
 }
