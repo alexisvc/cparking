@@ -1,7 +1,7 @@
 package com.dna.cparking.service.imp;
 
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +43,15 @@ public class ParkingServiceImp implements ParkingService {
 	
 	@Override
 	@Transactional
-	public void parkingGiveOutById(Parking parking, Date outDate, int payment) {
+	public Parking parkingGiveOutById(Parking parking, Date outDate, int payment) {
 		
 		parking.setOutDate(outDate);
 		parking.setPayment(payment);
 		parking.setStatus(false);
 		
 		saveParking(parking);
+		
+		return parking;
 	}
 	
 	@Override

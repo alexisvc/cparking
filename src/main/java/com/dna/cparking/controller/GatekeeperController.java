@@ -41,14 +41,16 @@ public class GatekeeperController {
 		return new ResponseEntity<>(vehicle, HttpStatus.OK);
 	}
 	
+	@Produces(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/giveOut/{plate}", method = RequestMethod.PUT)
 	public ResponseEntity<Object> giveOutVehicleInParking(@PathVariable("plate") String plate) {
-		try {
-			gatekeeperService.giveOutVehicle(plate);
+		Parking parking;
+		try {			
+			parking = gatekeeperService.giveOutVehicle(plate);
 		} catch (ExceptionParking e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
-		}		
-		return new ResponseEntity<>(plate, HttpStatus.OK);
+		}	
+		return new ResponseEntity<>(parking, HttpStatus.OK);
 	}
 	
 	@Produces(MediaType.APPLICATION_JSON)

@@ -53,7 +53,7 @@ public class GatekeeperServiceImp implements GatekeeperService {
 		parkingService.saveParking(parking);
 	}
 
-	public void giveOutVehicle(String plate) {			
+	public Parking giveOutVehicle(String plate) {			
 		if (!gatekeeper.checkVehicleIsParked(plate)){
 			throw new ExceptionParking(CatalogMessages.VEHICLE_IS_NOT_PARKED);
 		}
@@ -66,7 +66,7 @@ public class GatekeeperServiceImp implements GatekeeperService {
 		parking = parkingService.getParkingToGiveOut(plate);
 		payment = gatekeeper.generatePayment(parking.getVehicle().getVehicleType(), parking.getInDate(), outDate, parking.getVehicle().getDisplacement());
 		
-		parkingService.parkingGiveOutById(parking,outDate, payment);
+		return parkingService.parkingGiveOutById(parking,outDate, payment);
 	}
 
 	public List<Parking> findAllVehicles(){		
