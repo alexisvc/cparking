@@ -19,7 +19,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.dna.cparking.domain.imp.TimerParking;
 import com.dna.cparking.model.dao.ParkingDao;
-import com.dna.cparking.model.entity.Vehicle;
 import com.dna.cparking.util.EnumVehicleType;
 import com.dna.cparking.util.ParamsConfigParking;
 
@@ -28,13 +27,20 @@ import com.dna.cparking.util.ParamsConfigParking;
 @SpringBootTest
 public class GatekeeperTest {
 	
-	private static final String PLATE_TO_TEST = "IUY343";
 	private static final String PLATE_WITH_A = "ABC34A";
 	private static final String PLATE_WITHOUT_A = "CBA34S";
 	private static final String PLATE_PARKED = "XTS55D";
 	private static final String PLATE_UNPARKED = "OIU33A";
 	
-	private Vehicle carToTest = new Vehicle(PLATE_TO_TEST, 1200, EnumVehicleType.CAR);
+	private static final int EXPECTED_PAYMENT_CAR = 8000;
+	private static final int DISPLACEMENT_CAR = 1200;	
+	private static final int EXPECTED_PAYMENT_MOTORBIKE = 4000;
+	private static final int DISPLACEMENT_MOTORBIKE = 150;	
+	private static final int EXPECTED_PAYMENT_MOTORBIKE_500CC= 6000;
+	private static final int DISPLACEMENT_MOTORBIKE_500CC = 800;
+	private static final int MORE_HOURS_ON_TIME_PARKING = 11;
+	
+//	private Vehicle carToTest = new Vehicle(PLATE_TO_TEST, 1200, EnumVehicleType.CAR);
 	
 	private boolean response;
 	
@@ -144,21 +150,73 @@ public class GatekeeperTest {
 
 	@Test
 	public void calculatePayment() {
-		int expectedPayment = 8000;
 		int payment = 0;
 		ClockParking clock = mock(ClockParking.class);
-		TimerParking timerParking = new TimerParking(1, 0);
 		
 		Calendar calendar = Calendar.getInstance();
 		Date now = calendar.getTime();
-		calendar.add(Calendar.HOUR, 11);
+		
+		calendar.add(Calendar.HOUR, MORE_HOURS_ON_TIME_PARKING);
 		Date later = calendar.getTime();
 			
-		Mockito.when(clock.settingTimerParking(540)).thenReturn(timerParking);
+		Mockito.when(clock.settingTimerParking(540)).thenReturn(new TimerParking(1, 0));
 		
 		payment = gatekeeper.calculatePayment(now, later, ParamsConfigParking.VALUE_DAY_CAR, ParamsConfigParking.VALUE_HOUR_CAR);
 		
-		assertEquals(expectedPayment, payment);
+		assertEquals(EXPECTED_PAYMENT_CAR, payment);
 	}
 	
+	@Test
+	public void generatePaymentToCar() {
+		Gatekeeper spyGatekeeper = Mockito.spy(gatekeeper);
+		int payment = 0;
+		
+		Calendar calendar = Calendar.getInstance();
+		Date now = calendar.getTime();
+		
+		calendar.add(Calendar.HOUR, MORE_HOURS_ON_TIME_PARKING);
+		Date later = calendar.getTime();
+		
+		Mockito.when(spyGatekeeper.calculatePayment(now, later, ParamsConfigParking.VALUE_DAY_CAR, ParamsConfigParking.VALUE_HOUR_CAR)).thenReturn(EXPECTED_PAYMENT_CAR);
+				
+		payment = gatekeeper.generatePayment(EnumVehicleType.CAR, now, later, DISPLACEMENT_CAR);
+		
+		assertEquals(EXPECTED_PAYMENT_CAR, payment);		
+	}
+	
+	@Test
+	public void generatePaymentToMotorbike() {
+		Gatekeeper spyGatekeeper = Mockito.spy(gatekeeper);
+		int payment = 0;
+		
+		Calendar calendar = Calendar.getInstance();
+		Date now = calendar.getTime();
+		
+		calendar.add(Calendar.HOUR, MORE_HOURS_ON_TIME_PARKING);
+		Date later = calendar.getTime();
+		
+		Mockito.when(spyGatekeeper.calculatePayment(now, later, ParamsConfigParking.VALUE_DAY_MOTORBIKE, ParamsConfigParking.VALUE_HOUR_MOTORBIKE)).thenReturn(EXPECTED_PAYMENT_MOTORBIKE);
+				
+		payment = gatekeeper.generatePayment(EnumVehicleType.MOTORBIKE, now, later, DISPLACEMENT_MOTORBIKE);
+		
+		assertEquals(EXPECTED_PAYMENT_MOTORBIKE, payment);		
+	}
+	
+	@Test
+	public void generatePaymentToMotorbike500CC() {
+		Gatekeeper spyGatekeeper = Mockito.spy(gatekeeper);
+		int payment = 0;
+		
+		Calendar calendar = Calendar.getInstance();
+		Date now = calendar.getTime();
+		
+		calendar.add(Calendar.HOUR, MORE_HOURS_ON_TIME_PARKING);
+		Date later = calendar.getTime();
+		
+		Mockito.when(spyGatekeeper.calculatePayment(now, later, ParamsConfigParking.VALUE_DAY_MOTORBIKE, ParamsConfigParking.VALUE_HOUR_MOTORBIKE)).thenReturn(EXPECTED_PAYMENT_MOTORBIKE);
+				
+		payment = gatekeeper.generatePayment(EnumVehicleType.MOTORBIKE, now, later, DISPLACEMENT_MOTORBIKE_500CC);
+		
+		assertEquals(EXPECTED_PAYMENT_MOTORBIKE_500CC, payment);		
+	}	
 }

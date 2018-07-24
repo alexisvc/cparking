@@ -13,5 +13,6 @@ public final class ParamsConfigParking {
 	public static final int VALUE_DAY_CAR = 8000;
 	public static final int VALUE_HOUR_MOTORBIKE = 500;
 	public static final int VALUE_DAY_MOTORBIKE = 4000;
-	public static final int VALUE_SURCHARGE_MOTORBIKE_500CC = 4000;
+	public static final int VALUE_DISPLACEMENT_MOTORBIKE_500CC = 500;
+	public static final int VALUE_SURCHARGE_MOTORBIKE_500CC = 2000;
 }

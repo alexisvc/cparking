@@ -63,12 +63,12 @@ public class GatekeeperImp implements Gatekeeper {
 		
 		if (vehicleType.equals(EnumVehicleType.MOTORBIKE)) {
 			payment = calculatePayment(inDate, outDate, ParamsConfigParking.VALUE_DAY_MOTORBIKE, ParamsConfigParking.VALUE_HOUR_MOTORBIKE);
-			payment += displacement > ParamsConfigParking.VALUE_SURCHARGE_MOTORBIKE_500CC
+			payment += displacement > ParamsConfigParking.VALUE_DISPLACEMENT_MOTORBIKE_500CC
 					? ParamsConfigParking.VALUE_SURCHARGE_MOTORBIKE_500CC
 					: 0;
 		
 		} else if (vehicleType.equals(EnumVehicleType.CAR)) {
-			payment = calculatePayment(inDate, outDate, ParamsConfigParking.VALUE_DAY_MOTORBIKE, ParamsConfigParking.VALUE_HOUR_MOTORBIKE);
+			payment = calculatePayment(inDate, outDate, ParamsConfigParking.VALUE_DAY_CAR, ParamsConfigParking.VALUE_HOUR_CAR);
 		}
 		
 		return payment;
