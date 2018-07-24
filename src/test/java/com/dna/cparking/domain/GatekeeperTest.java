@@ -27,6 +27,11 @@ import com.dna.cparking.util.ParamsConfigParking;
 @SpringBootTest
 public class GatekeeperTest {
 	
+	@org.junit.Before
+	public void mocksInitialization(){
+		MockitoAnnotations.initMocks(this);
+	}
+	
 	private static final String PLATE_WITH_A = "ABC34A";
 	private static final String PLATE_WITHOUT_A = "CBA34S";
 	private static final String PLATE_PARKED = "XTS55D";
@@ -44,17 +49,11 @@ public class GatekeeperTest {
 	
 	private boolean response;
 	
-	
 	@Autowired
 	private Gatekeeper gatekeeper;
 
 	@MockBean
 	private ParkingDao parkingDao;
-	
-	@org.junit.Before
-	public void mocksInitialization(){
-		MockitoAnnotations.initMocks(this);
-	}
 	
 	@Test
 	public void plateStarWithA() {
@@ -159,7 +158,7 @@ public class GatekeeperTest {
 		calendar.add(Calendar.HOUR, MORE_HOURS_ON_TIME_PARKING);
 		Date later = calendar.getTime();
 			
-		Mockito.when(clock.settingTimerParking(540)).thenReturn(new TimerParking(1, 0));
+		Mockito.when(clock.settingTimerParking(540)).thenReturn(new TimerParking(1, 1));
 		
 		payment = gatekeeper.calculatePayment(now, later, ParamsConfigParking.VALUE_DAY_CAR, ParamsConfigParking.VALUE_HOUR_CAR);
 		
