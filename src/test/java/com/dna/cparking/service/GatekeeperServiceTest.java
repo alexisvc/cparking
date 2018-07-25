@@ -101,18 +101,18 @@ public class GatekeeperServiceTest {
 		}
 	}
 	
-	@Test
-	public void registerVehicleEntry() {
-		Vehicle vehicle = new Vehicle();
-		
-		vehicle.setPlate(PLATE_WITH_A);
-		vehicle.setVehicleType(EnumVehicleType.CAR);
-		
-		Mockito.when(calendarParking.isMondayOrSunday()).thenReturn(false);
-		Mockito.when(parkingDao.findAllVehicleInParkingByType(vehicle.getVehicleType())).thenReturn(ParamsConfigParking.MAX_CARS_ALLOWED - 1);
-		Mockito.when(parkingDao.alreadyParked(vehicle.getPlate())).thenReturn(false);
-		
-		
-		gatekeeperService.registerVehicleEntry(vehicle);
-	}
+//	@Test
+//	public void registerVehicleEntry() {
+//		Vehicle vehicle = new Vehicle();
+//		
+//		vehicle.setPlate(PLATE_WITH_A);
+//		vehicle.setVehicleType(EnumVehicleType.CAR);
+//		
+//		Mockito.when(calendarParking.isMondayOrSunday()).thenReturn(false);
+//		Mockito.when(parkingDao.findAllVehicleInParkingByType(vehicle.getVehicleType())).thenReturn(ParamsConfigParking.MAX_CARS_ALLOWED - 1);
+//		Mockito.when(parkingDao.alreadyParked(vehicle.getPlate())).thenReturn(false);
+//		
+//		
+//		gatekeeperService.registerVehicleEntry(vehicle);
+//	}
 }
