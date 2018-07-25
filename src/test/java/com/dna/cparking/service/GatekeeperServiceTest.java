@@ -2,7 +2,6 @@ package com.dna.cparking.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +16,7 @@ import com.dna.cparking.domain.CalendarParking;
 import com.dna.cparking.exception.ExceptionParking;
 import com.dna.cparking.message.CatalogMessages;
 import com.dna.cparking.model.dao.ParkingDao;
+import com.dna.cparking.model.dao.VehicleDao;
 import com.dna.cparking.model.entity.Vehicle;
 import com.dna.cparking.util.EnumVehicleType;
 import com.dna.cparking.util.ParamsConfigParking;
@@ -38,6 +38,9 @@ public class GatekeeperServiceTest {
 	
 	@MockBean
 	private ParkingDao parkingDao;
+	
+	@MockBean
+	private VehicleDao vehicleDao;
 	
 	private static final String PLATE_WITH_A = "ABC34A";
 	
@@ -100,7 +103,6 @@ public class GatekeeperServiceTest {
 	
 	@Test
 	public void registerVehicleEntry() {
-		VehicleService vehicleService = mock(VehicleService.class);
 		Vehicle vehicle = new Vehicle();
 		
 		vehicle.setPlate(PLATE_WITH_A);
@@ -109,7 +111,7 @@ public class GatekeeperServiceTest {
 		Mockito.when(calendarParking.isMondayOrSunday()).thenReturn(false);
 		Mockito.when(parkingDao.findAllVehicleInParkingByType(vehicle.getVehicleType())).thenReturn(ParamsConfigParking.MAX_CARS_ALLOWED - 1);
 		Mockito.when(parkingDao.alreadyParked(vehicle.getPlate())).thenReturn(false);
-		Mockito.when(vehicleService.getVehicleToParking(vehicle)).thenReturn(vehicle);
+		
 		
 		gatekeeperService.registerVehicleEntry(vehicle);
 	}

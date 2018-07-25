@@ -41,12 +41,13 @@ public class GatekeeperServiceImp implements GatekeeperService {
 			throw new ExceptionParking(CatalogMessages.THERE_IS_NOT_SPACE_FOR_VEHICLE_TYPE);
 		}
 		
-		if (gatekeeper.checkVehicleIsParked(vehicle.getPlate())){
+		if (gatekeeper.checkVehicleIsParked(vehicle.getPlate())) {
 			throw new ExceptionParking(CatalogMessages.VEHICLE_ALREADY_IS_PARKED);
 		}
 		
-		Parking parking = new Parking();
+		Parking parking = new Parking();		
 		
+		/*Error aquí, si está yendo hasta la base de datos*/
 		vehicle = vehicleService.getVehicleToParking(vehicle);				
 		parking = parkingService.settingParking(parking, vehicle);
 		
