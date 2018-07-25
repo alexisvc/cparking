@@ -1,24 +1,25 @@
 package com.dna.cparking.service;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.dna.cparking.domain.CalendarParking;
-import com.dna.cparking.domain.Gatekeeper;
 import com.dna.cparking.exception.ExceptionParking;
+import com.dna.cparking.message.CatalogMessages;
+import com.dna.cparking.model.dao.ParkingDao;
 import com.dna.cparking.model.entity.Vehicle;
 import com.dna.cparking.util.EnumVehicleType;
+import com.dna.cparking.util.ParamsConfigParking;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -33,21 +34,82 @@ public class GatekeeperServiceTest {
 	private GatekeeperService gatekeeperService;
 	
 	@MockBean
-	private Gatekeeper gatekeeper;
-	
-	@MockBean
 	private CalendarParking calendarParking;
 	
+	@MockBean
+	private ParkingDao parkingDao;
+	
 	private static final String PLATE_WITH_A = "ABC34A";
-
-	@Test(expected = ExceptionParking.class)
+	
+	@Test
 	public void throwsExceptionWhenPlateWithAOnMondayOrSunday() {
-		Vehicle vehicle = mock(Vehicle.class);
 		
-		Mockito.when(calendarParking.isMondayOrSunday()).thenReturn(true);
-		Mockito.when(gatekeeper.checkPlateStartWithA(PLATE_WITH_A)).thenReturn(true);
-		Mockito.when(gatekeeper.checkSpaceVehicleType(EnumVehicleType.CAR)).thenReturn(true);
-		Mockito.when(gatekeeper.checkVehicleIsParked(PLATE_WITH_A)).thenReturn(false);
+		try {			
+			Vehicle vehicle = new Vehicle();
+			vehicle.setPlate(PLATE_WITH_A);
+			vehicle.setVehicleType(EnumVehicleType.CAR);
+			
+			Mockito.when(calendarParking.isMondayOrSunday()).thenReturn(true);
+			
+			gatekeeperService.registerVehicleEntry(vehicle);
+			
+			fail();
+		} catch (ExceptionParking e) {
+			assertEquals(CatalogMessages.INVALID_PLATE_IN_DAY, e.getMessage());		
+		}
+	}
+	
+	@Test
+	public void throwsExceptionWhenNotSpaceVehicleType() {
+		
+		try {			
+			Vehicle vehicle = new Vehicle();
+			vehicle.setPlate(PLATE_WITH_A);
+			vehicle.setVehicleType(EnumVehicleType.CAR);
+			
+			Mockito.when(calendarParking.isMondayOrSunday()).thenReturn(false);
+			Mockito.when(parkingDao.findAllVehicleInParkingByType(vehicle.getVehicleType())).thenReturn(ParamsConfigParking.MAX_CARS_ALLOWED + 1);
+			
+			gatekeeperService.registerVehicleEntry(vehicle);
+			
+			fail();
+		} catch (ExceptionParking e) {
+			assertEquals(CatalogMessages.THERE_IS_NOT_SPACE_FOR_VEHICLE_TYPE, e.getMessage());		
+		}
+	}
+	
+	@Test
+	public void throwsExceptionWhenAlreadyVehicleIsParked() {
+		
+		try {			
+			Vehicle vehicle = new Vehicle();
+			vehicle.setPlate(PLATE_WITH_A);
+			vehicle.setVehicleType(EnumVehicleType.CAR);
+			
+			Mockito.when(calendarParking.isMondayOrSunday()).thenReturn(false);
+			Mockito.when(parkingDao.findAllVehicleInParkingByType(vehicle.getVehicleType())).thenReturn(ParamsConfigParking.MAX_CARS_ALLOWED - 1);
+			Mockito.when(parkingDao.alreadyParked(vehicle.getPlate())).thenReturn(true);
+			
+			gatekeeperService.registerVehicleEntry(vehicle);
+			
+			fail();
+		} catch (ExceptionParking e) {
+			assertEquals(CatalogMessages.VEHICLE_ALREADY_IS_PARKED, e.getMessage());		
+		}
+	}
+	
+	@Test
+	public void registerVehicleEntry() {
+		VehicleService vehicleService = mock(VehicleService.class);
+		Vehicle vehicle = new Vehicle();
+		
+		vehicle.setPlate(PLATE_WITH_A);
+		vehicle.setVehicleType(EnumVehicleType.CAR);
+		
+		Mockito.when(calendarParking.isMondayOrSunday()).thenReturn(false);
+		Mockito.when(parkingDao.findAllVehicleInParkingByType(vehicle.getVehicleType())).thenReturn(ParamsConfigParking.MAX_CARS_ALLOWED - 1);
+		Mockito.when(parkingDao.alreadyParked(vehicle.getPlate())).thenReturn(false);
+		Mockito.when(vehicleService.getVehicleToParking(vehicle)).thenReturn(vehicle);
 		
 		gatekeeperService.registerVehicleEntry(vehicle);
 	}

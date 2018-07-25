@@ -31,7 +31,7 @@ public class GatekeeperServiceImp implements GatekeeperService {
 	
 	@Autowired
 	private VehicleService vehicleService;
-	
+
 	public void registerVehicleEntry(Vehicle vehicle){
 		if (calendarParking.isMondayOrSunday() && gatekeeper.checkPlateStartWithA(vehicle.getPlate())) {
 			throw new ExceptionParking(CatalogMessages.INVALID_PLATE_IN_DAY);
