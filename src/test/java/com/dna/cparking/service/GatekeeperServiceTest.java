@@ -1,4 +1,4 @@
-package com.dna.cparking.service;
+/**package com.dna.cparking.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -20,6 +20,9 @@ import com.dna.cparking.model.dao.VehicleDao;
 import com.dna.cparking.model.entity.Vehicle;
 import com.dna.cparking.util.EnumVehicleType;
 import com.dna.cparking.util.ParamsConfigParking;
+
+ * {@code 406 Not Acceptable}.
+ * @see <a href="http://tools.ietf.org/html/rfc7231#section-6.5.6">HTTP/1.1: Semantics and Content, section 6.5.6</a>
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -115,4 +118,7 @@ public class GatekeeperServiceTest {
 //		
 //		gatekeeperService.registerVehicleEntry(vehicle);
 //	}
+ * 
+
 }
+ */

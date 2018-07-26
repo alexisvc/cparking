@@ -5,11 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.dna.cparking.domain.CalendarParking;
 import com.dna.cparking.domain.Gatekeeper;
-import com.dna.cparking.exception.ExceptionParking;
+import com.dna.cparking.exception.types.ApiErrorBuilderException;
 import com.dna.cparking.message.CatalogMessages;
 import com.dna.cparking.model.entity.Parking;
 import com.dna.cparking.model.entity.Vehicle;
@@ -19,7 +20,7 @@ import com.dna.cparking.service.VehicleService;
 
 @Service
 public class GatekeeperServiceImp implements GatekeeperService {
-	
+
 	@Autowired
 	private Gatekeeper gatekeeper;
 	
@@ -32,31 +33,30 @@ public class GatekeeperServiceImp implements GatekeeperService {
 	@Autowired
 	private VehicleService vehicleService;
 
-	public void registerVehicleEntry(Vehicle vehicle){
-		if (calendarParking.isMondayOrSunday() && gatekeeper.checkPlateStartWithA(vehicle.getPlate())) {
-			throw new ExceptionParking(CatalogMessages.INVALID_PLATE_IN_DAY);
+	public void registerVehicleEntry(Vehicle vehicle) throws ApiErrorBuilderException {
+		if (!calendarParking.isMondayOrSunday() && gatekeeper.checkPlateStartWithA(vehicle.getPlate())) {
+			throw new ApiErrorBuilderException(CatalogMessages.INVALID_PLATE_IN_DAY,  HttpStatus.NOT_ACCEPTABLE);
 		}
 		
 		if (!gatekeeper.checkSpaceVehicleType(vehicle.getVehicleType())) {
-			throw new ExceptionParking(CatalogMessages.THERE_IS_NOT_SPACE_FOR_VEHICLE_TYPE);
+			throw new ApiErrorBuilderException(CatalogMessages.THERE_IS_NOT_SPACE_FOR_VEHICLE_TYPE, HttpStatus.NOT_ACCEPTABLE);
 		}
 		
 		if (gatekeeper.checkVehicleIsParked(vehicle.getPlate())) {
-			throw new ExceptionParking(CatalogMessages.VEHICLE_ALREADY_IS_PARKED);
+			throw new ApiErrorBuilderException(CatalogMessages.VEHICLE_ALREADY_IS_PARKED, HttpStatus.NOT_ACCEPTABLE);
 		}
 		
 		Parking parking = new Parking();		
-		
-		/*Error aquí, si está yendo hasta la base de datos*/
+	
 		vehicle = vehicleService.getVehicleToParking(vehicle);				
 		parking = parkingService.settingParking(parking, vehicle);
 		
 		parkingService.saveParking(parking);
 	}
 
-	public Parking giveOutVehicle(String plate) {			
+	public Parking giveOutVehicle(String plate) throws ApiErrorBuilderException  {			
 		if (!gatekeeper.checkVehicleIsParked(plate)){
-			throw new ExceptionParking(CatalogMessages.VEHICLE_IS_NOT_PARKED);
+			throw new ApiErrorBuilderException(CatalogMessages.VEHICLE_IS_NOT_PARKED, HttpStatus.NOT_ACCEPTABLE);
 		}
 		
 		Date outDate;
@@ -70,9 +70,9 @@ public class GatekeeperServiceImp implements GatekeeperService {
 		return parkingService.parkingGiveOutById(parking,outDate, payment);
 	}
 
-	public List<Parking> findAllVehicles(){		
+	public List<Parking> findAllVehicles() throws ApiErrorBuilderException {		
 		if (gatekeeper.checkParkingIsEmpty()) {
-			throw new ExceptionParking(CatalogMessages.PARKING_IS_EMPTY);
+			throw new ApiErrorBuilderException(CatalogMessages.PARKING_IS_EMPTY, HttpStatus.NOT_ACCEPTABLE);
 		}
 		return parkingService.findAllParking();		
 	}
