@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.dna.cparking.exception.types.ApiErrorBuilderException;
-
 @ControllerAdvice
 public class ApiHandlerException extends ResponseEntityExceptionHandler{	
 	

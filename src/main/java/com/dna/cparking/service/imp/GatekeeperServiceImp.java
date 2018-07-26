@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.dna.cparking.domain.CalendarParking;
 import com.dna.cparking.domain.Gatekeeper;
-import com.dna.cparking.exception.types.ApiErrorBuilderException;
+import com.dna.cparking.exception.ApiErrorBuilderException;
 import com.dna.cparking.message.CatalogMessages;
 import com.dna.cparking.model.entity.Parking;
 import com.dna.cparking.model.entity.Vehicle;

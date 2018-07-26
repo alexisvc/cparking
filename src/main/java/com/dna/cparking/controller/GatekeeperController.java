@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dna.cparking.exception.types.ApiErrorBuilderException;
+import com.dna.cparking.exception.ApiErrorBuilderException;
 import com.dna.cparking.model.entity.Parking;
 import com.dna.cparking.model.entity.Vehicle;
 import com.dna.cparking.service.GatekeeperService;

@@ -1,4 +1,4 @@
-package com.dna.cparking.exception.types;
+package com.dna.cparking.exception;
 
 import org.springframework.http.HttpStatus;
 

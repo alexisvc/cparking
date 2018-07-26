@@ -2,7 +2,7 @@ package com.dna.cparking.service;
 
 import java.util.List;
 
-import com.dna.cparking.exception.types.ApiErrorBuilderException;
+import com.dna.cparking.exception.ApiErrorBuilderException;
 import com.dna.cparking.model.entity.Parking;
 import com.dna.cparking.model.entity.Vehicle;
 
