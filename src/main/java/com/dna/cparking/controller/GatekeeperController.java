@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dna.cparking.exception.ErrorMessage;
+import com.dna.cparking.exception.type.UnabledOperationException;
 import com.dna.cparking.model.entity.Parking;
 import com.dna.cparking.model.entity.Vehicle;
 import com.dna.cparking.service.GatekeeperService;
@@ -30,28 +30,22 @@ public class GatekeeperController {
 	private GatekeeperService gatekeeperService;
 
 	@RequestMapping(value = "/registerEntry", method = RequestMethod.POST)	
-	public ResponseEntity<Object> enterVehicleInParkig(@RequestBody Vehicle vehicle) throws ErrorMessage {
-		
-		gatekeeperService.registerVehicleEntry(vehicle);
-		
+	public ResponseEntity<Object> enterVehicleInParkig(@RequestBody Vehicle vehicle) throws UnabledOperationException {
+		gatekeeperService.registerVehicleEntry(vehicle);		
 		return new ResponseEntity<>(vehicle, HttpStatus.CREATED);
 	}
 	
 	@Produces(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/giveOut/{plate}", method = RequestMethod.PUT)
-	public ResponseEntity<Object> giveOutVehicleInParking(@PathVariable("plate") String plate) throws ErrorMessage{
-		
-		Parking parking = gatekeeperService.giveOutVehicle(plate);
-		
+	public ResponseEntity<Object> giveOutVehicleInParking(@PathVariable("plate") String plate) throws UnabledOperationException {
+		Parking parking = gatekeeperService.giveOutVehicle(plate);		
 		return new ResponseEntity<>(parking, HttpStatus.ACCEPTED);
 	}
 	
 	@Produces(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/findAllParked", method = RequestMethod.GET )
-	public ResponseEntity<Object> findAllVehicleParked() throws ErrorMessage {
-		
+	public ResponseEntity<Object> findAllVehicleParked() throws UnabledOperationException{
 		List<Parking> parking = gatekeeperService.findAllVehicles();
-
 		return new ResponseEntity<>(parking, HttpStatus.OK);
 	}
 }
