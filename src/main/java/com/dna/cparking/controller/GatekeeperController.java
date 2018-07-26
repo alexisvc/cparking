@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dna.cparking.exception.ApiErrorBuilderException;
+import com.dna.cparking.exception.ErrorMessage;
 import com.dna.cparking.model.entity.Parking;
 import com.dna.cparking.model.entity.Vehicle;
 import com.dna.cparking.service.GatekeeperService;
@@ -30,7 +30,7 @@ public class GatekeeperController {
 	private GatekeeperService gatekeeperService;
 
 	@RequestMapping(value = "/registerEntry", method = RequestMethod.POST)	
-	public ResponseEntity<Object> enterVehicleInParkig(@RequestBody Vehicle vehicle) throws ApiErrorBuilderException {
+	public ResponseEntity<Object> enterVehicleInParkig(@RequestBody Vehicle vehicle) throws ErrorMessage {
 		
 		gatekeeperService.registerVehicleEntry(vehicle);
 		
@@ -39,7 +39,7 @@ public class GatekeeperController {
 	
 	@Produces(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/giveOut/{plate}", method = RequestMethod.PUT)
-	public ResponseEntity<Object> giveOutVehicleInParking(@PathVariable("plate") String plate) throws ApiErrorBuilderException{
+	public ResponseEntity<Object> giveOutVehicleInParking(@PathVariable("plate") String plate) throws ErrorMessage{
 		
 		Parking parking = gatekeeperService.giveOutVehicle(plate);
 		
@@ -48,7 +48,7 @@ public class GatekeeperController {
 	
 	@Produces(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/findAllParked", method = RequestMethod.GET )
-	public ResponseEntity<Object> findAllVehicleParked() throws ApiErrorBuilderException {
+	public ResponseEntity<Object> findAllVehicleParked() throws ErrorMessage {
 		
 		List<Parking> parking = gatekeeperService.findAllVehicles();
 

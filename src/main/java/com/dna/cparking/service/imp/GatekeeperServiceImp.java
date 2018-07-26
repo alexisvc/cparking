@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.dna.cparking.domain.CalendarParking;
 import com.dna.cparking.domain.Gatekeeper;
-import com.dna.cparking.exception.ApiErrorBuilderException;
-import com.dna.cparking.message.CatalogMessages;
+import com.dna.cparking.exception.type.UnabledOperationException;
+import com.dna.cparking.message.CatalogMessage;
 import com.dna.cparking.model.entity.Parking;
 import com.dna.cparking.model.entity.Vehicle;
 import com.dna.cparking.service.GatekeeperService;
@@ -33,17 +33,17 @@ public class GatekeeperServiceImp implements GatekeeperService {
 	@Autowired
 	private VehicleService vehicleService;
 
-	public void registerVehicleEntry(Vehicle vehicle) throws ApiErrorBuilderException {
+	public void registerVehicleEntry(Vehicle vehicle) throws UnabledOperationException {
 		if (!calendarParking.isMondayOrSunday() && gatekeeper.checkPlateStartWithA(vehicle.getPlate())) {
-			throw new ApiErrorBuilderException(CatalogMessages.INVALID_PLATE_IN_DAY,  HttpStatus.NOT_ACCEPTABLE);
+			throw new UnabledOperationException(CatalogMessage.INVALID_PLATE_IN_DAY,  HttpStatus.NOT_ACCEPTABLE);
 		}
 		
 		if (!gatekeeper.checkSpaceVehicleType(vehicle.getVehicleType())) {
-			throw new ApiErrorBuilderException(CatalogMessages.THERE_IS_NOT_SPACE_FOR_VEHICLE_TYPE, HttpStatus.NOT_ACCEPTABLE);
+			throw new UnabledOperationException(CatalogMessage.THERE_IS_NOT_SPACE_FOR_VEHICLE_TYPE, HttpStatus.NOT_ACCEPTABLE);
 		}
 		
 		if (gatekeeper.checkVehicleIsParked(vehicle.getPlate())) {
-			throw new ApiErrorBuilderException(CatalogMessages.VEHICLE_ALREADY_IS_PARKED, HttpStatus.NOT_ACCEPTABLE);
+			throw new UnabledOperationException(CatalogMessage.VEHICLE_ALREADY_IS_PARKED, HttpStatus.NOT_ACCEPTABLE);
 		}
 		
 		Parking parking = new Parking();		
@@ -54,9 +54,9 @@ public class GatekeeperServiceImp implements GatekeeperService {
 		parkingService.saveParking(parking);
 	}
 
-	public Parking giveOutVehicle(String plate) throws ApiErrorBuilderException  {			
+	public Parking giveOutVehicle(String plate) throws UnabledOperationException  {			
 		if (!gatekeeper.checkVehicleIsParked(plate)){
-			throw new ApiErrorBuilderException(CatalogMessages.VEHICLE_IS_NOT_PARKED, HttpStatus.NOT_ACCEPTABLE);
+			throw new UnabledOperationException(CatalogMessage.VEHICLE_IS_NOT_PARKED, HttpStatus.NOT_ACCEPTABLE);
 		}
 		
 		Date outDate;
@@ -70,9 +70,9 @@ public class GatekeeperServiceImp implements GatekeeperService {
 		return parkingService.parkingGiveOutById(parking,outDate, payment);
 	}
 
-	public List<Parking> findAllVehicles() throws ApiErrorBuilderException {		
+	public List<Parking> findAllVehicles() throws UnabledOperationException {		
 		if (gatekeeper.checkParkingIsEmpty()) {
-			throw new ApiErrorBuilderException(CatalogMessages.PARKING_IS_EMPTY, HttpStatus.NOT_ACCEPTABLE);
+			throw new UnabledOperationException(CatalogMessage.PARKING_IS_EMPTY, HttpStatus.NOT_ACCEPTABLE);
 		}
 		return parkingService.findAllParking();		
 	}

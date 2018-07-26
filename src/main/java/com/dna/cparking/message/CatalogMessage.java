@@ -1,8 +1,10 @@
 package com.dna.cparking.message;
 
-public class CatalogMessages {
+public class CatalogMessage {
 	
-	CatalogMessages(){}
+	CatalogMessage(){}
+	
+	public static final String GENERAL_ERROR = "Something went wrong";
 	
 	public static final String INVALID_PLATE_IN_DAY = "El vehículo no está autorizado para ingresar el día de hoy. Tiene restricción por su placa.";
 	public static final String THERE_IS_NOT_SPACE_FOR_VEHICLE_TYPE = "No hay celdas disponibles para el tipo de vehículo que intenta ingresar.";
