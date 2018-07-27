@@ -43,13 +43,14 @@ public class Parking implements Serializable {
 		super();
 	}	
 	
-	public Parking(Date inDate, Date outDate, boolean status, Vehicle vehicle, int payment) {
+	public Parking(Date inDate, Date outDate, boolean status, int payment, Vehicle vehicle) {
 		super();
 		this.inDate = inDate;
 		this.outDate = outDate;
 		this.status = status;
-		this.vehicle = vehicle;
 		this.payment = payment;
+		this.vehicle = vehicle;
+		
 	}
 	
 	public int getidParking() {

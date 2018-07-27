@@ -21,6 +21,8 @@ import com.dna.cparking.model.entity.Vehicle;
 import com.dna.cparking.util.EnumVehicleType;
 import com.dna.cparking.util.ParamsConfigParking;
 
+import static databuilder.VehicleBuilder.aVehicle;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class GatekeeperServiceTest {
@@ -47,10 +49,11 @@ public class GatekeeperServiceTest {
 	@Test
 	public void throwsExceptionWhenPlateWithAOnMondayOrSunday() {
 		
-		try {			
-			Vehicle vehicle = new Vehicle();
-			vehicle.setPlate(PLATE_WITH_A);
-			vehicle.setVehicleType(EnumVehicleType.CAR);
+		try {
+			Vehicle vehicle = aVehicle()
+					.withPlate(PLATE_WITH_A)
+					.withVehicleType(EnumVehicleType.CAR)
+					.build();
 			
 			Mockito.when(calendarParking.isMondayOrSunday()).thenReturn(false);
 			
@@ -66,10 +69,11 @@ public class GatekeeperServiceTest {
 	@Test
 	public void throwsExceptionWhenNotSpaceVehicleType() {
 		
-		try {			
-			Vehicle vehicle = new Vehicle();
-			vehicle.setPlate(PLATE_WITH_A);
-			vehicle.setVehicleType(EnumVehicleType.CAR);
+		try {
+			Vehicle vehicle = aVehicle()
+					.withPlate(PLATE_WITH_A)
+					.withVehicleType(EnumVehicleType.CAR)
+					.build();
 			
 			Mockito.when(calendarParking.isMondayOrSunday()).thenReturn(true);
 			Mockito.when(parkingDao.findAllVehicleInParkingByType(vehicle.getVehicleType())).thenReturn(ParamsConfigParking.MAX_CARS_ALLOWED + 1);
@@ -85,10 +89,11 @@ public class GatekeeperServiceTest {
 	@Test
 	public void throwsExceptionWhenAlreadyVehicleIsParked() {
 		
-		try {			
-			Vehicle vehicle = new Vehicle();
-			vehicle.setPlate(PLATE_WITH_A);
-			vehicle.setVehicleType(EnumVehicleType.CAR);
+		try {
+			Vehicle vehicle = aVehicle()
+					.withPlate(PLATE_WITH_A)
+					.withVehicleType(EnumVehicleType.CAR)
+					.build();
 			
 			Mockito.when(calendarParking.isMondayOrSunday()).thenReturn(true);
 			Mockito.when(parkingDao.findAllVehicleInParkingByType(vehicle.getVehicleType())).thenReturn(ParamsConfigParking.MAX_CARS_ALLOWED - 1);
@@ -104,9 +109,10 @@ public class GatekeeperServiceTest {
 	
 	@Test
 	public void registerVehicleEntry() throws UnabledOperationException {
-		Vehicle vehicle = new Vehicle();		
-		vehicle.setPlate(PLATE_WITH_A);
-		vehicle.setVehicleType(EnumVehicleType.CAR);
+		Vehicle vehicle = aVehicle()
+				.withPlate(PLATE_WITH_A)
+				.withVehicleType(EnumVehicleType.CAR)
+				.build();
 		
 		Mockito.when(calendarParking.isMondayOrSunday()).thenReturn(true);
 		Mockito.when(parkingDao.findAllVehicleInParkingByType(vehicle.getVehicleType())).thenReturn(ParamsConfigParking.MAX_CARS_ALLOWED - 1);
