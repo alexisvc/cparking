@@ -46,6 +46,7 @@ public class GatekeeperController {
 	@RequestMapping(value = "/findAllParked", method = RequestMethod.GET )
 	public ResponseEntity<Object> findAllVehicleParked() throws UnabledOperationException{
 		List<Parking> parking = gatekeeperService.findAllVehicles();
+		
 		return new ResponseEntity<>(parking, HttpStatus.OK);
 	}
 }
