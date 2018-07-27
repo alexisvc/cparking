@@ -30,8 +30,8 @@ public class GatekeeperController {
 	private GatekeeperService gatekeeperService;
 
 	@RequestMapping(value = "/registerEntry", method = RequestMethod.POST)	
-	public ResponseEntity<Object> enterVehicleInParkig(@RequestBody Vehicle vehicle) throws UnabledOperationException {
-		gatekeeperService.registerVehicleEntry(vehicle);		
+	public ResponseEntity<Object> enterVehicleInParkig(@RequestBody Vehicle vehicle) throws UnabledOperationException {		
+		gatekeeperService.registerVehicleEntry(vehicle);
 		return new ResponseEntity<>(vehicle, HttpStatus.CREATED);
 	}
 	
