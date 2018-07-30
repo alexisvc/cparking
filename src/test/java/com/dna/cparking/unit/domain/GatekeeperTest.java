@@ -1,4 +1,4 @@
-package com.dna.cparking.domain;
+package com.dna.cparking.unit.domain;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -17,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.dna.cparking.domain.ClockParking;
+import com.dna.cparking.domain.Gatekeeper;
 import com.dna.cparking.domain.imp.TimerParking;
 import com.dna.cparking.model.dao.ParkingDao;
 import com.dna.cparking.util.EnumVehicleType;

@@ -1,4 +1,4 @@
-package com.dna.cparking.service;
+package com.dna.cparking.unit.service;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,6 +18,7 @@ import com.dna.cparking.message.CatalogMessage;
 import com.dna.cparking.model.dao.ParkingDao;
 import com.dna.cparking.model.dao.VehicleDao;
 import com.dna.cparking.model.entity.Vehicle;
+import com.dna.cparking.service.GatekeeperService;
 import com.dna.cparking.util.EnumVehicleType;
 import com.dna.cparking.util.ParamsConfigParking;
 

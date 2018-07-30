@@ -1,4 +1,4 @@
-package com.dna.cparking;
+package com.dna.cparking.integration;
 
 import static databuilder.ParkingBuilder.aParking;
 import static databuilder.VehicleBuilder.aVehicle;

@@ -1,4 +1,4 @@
-package com.dna.cparking.domain;
+package com.dna.cparking.unit.domain;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
